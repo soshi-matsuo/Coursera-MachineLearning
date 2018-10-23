@@ -86,6 +86,26 @@ tmp2(:,1) = 0;
 J =  nrJ + (lambda/(2*m)) * (sum(sum(tmp1.^2)) + sum(sum(tmp2.^2)));
 
 % Back prop 
+D1 = 0;
+D2 = 0;
+for t = 1:m
+    
+    a1 = [1 X(t,:)];
+    z2 = a1 * Theta1';
+    a2 = sigmoid(z2);
+    a2 = [1, a2];
+    z3 = a2 * Theta2';
+    a3 = sigmoid(z3);
+
+    d3 = (a3 - y_matrix(t,:));
+    tmp2 = Theta2(:,2:end);
+    d2 = d3 * tmp2 .* sigmoidGradient(z2);
+    D1 = D1 + d2' * a1; 
+    D2 = D2 + d3' * a2;
+Theta1_grad = D1 .* (1/m);
+Theta2_grad = D2 .* (1/m);
+
+
 
 
 
