@@ -42,6 +42,9 @@ error_val = zeros(length(lambda_vec), 1);
 for i = 1:length(lambda_vec)
     lambda = lambda_vec(i);
     [theta] = trainLinearReg(X,y,lambda);
+
+    %　↑で正規化項を使用してThetaを求めているので、そのThetaを使ったモデルのコストを検証する際は、改めてLambdaを引数に与える必要はない
+
     [Jt, grad] = linearRegCostFunction(X, y, theta, 0);
     error_train(i) += Jt;
     [Jv, grad] = linearRegCostFunction(Xval, yval, theta, 0);
