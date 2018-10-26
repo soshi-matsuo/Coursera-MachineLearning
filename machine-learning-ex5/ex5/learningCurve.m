@@ -53,6 +53,19 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+% トレーニングセットが１〜ｍ個の場合についてモデルを設計する＝各々の場合についてthetaを求める
+% 各thetaについてコストを計算し、それらを、トレーニングセットがi個の場合のコストとして行列に格納する
+% その行列の各要素をプロットすると、トレーニングセットの数に応じて誤差がどうなるかが可視化できる
+
+% ※交差検証において、CV,TESTは学習に一切関与しない
+
+for i = 1:m
+    [theta] = trainLinearReg(X(1:i,:),y(1:i),lambda);
+    [Jt, grad] = linearRegCostFunction(X(1:i,:), y(1:i), theta, 0);
+    error_train(i) += Jt;
+    [Jv, grad] = linearRegCostFunction(Xval, yval, theta, 0);
+    error_val(i) += Jv;
+end
 
 
 
