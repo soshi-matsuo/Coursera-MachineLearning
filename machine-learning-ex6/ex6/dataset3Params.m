@@ -23,7 +23,23 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+Cs = [0.01,0.03,0.1,0.3,1,3,10,30];
+sigmas = Cs(:,:);
 
+tmpMatrix = [];
+
+for i = 1:length(Cs)
+    for j = 1:length(sigmas)
+        model= svmTrain(X, y, Cs(:,i), @(x1, x2) gaussianKernel(x1, x2, sigmas(:,j))); 
+        predictions = svmPredict(model, Xval);
+        tmpErr = mean(double(predictions ~= yval));
+        tmpMatrix = [tmpMatrix; [tmpErr, Cs(:,i), sigmas(:,j)]];
+    endfor
+endfor
+
+[dummy, minIndex] = min(tmpMatrix(:,1));
+C = tmpMatrix(minIndex,2)
+sigma = tmpMatrix(minIndex,3)
 
 
 

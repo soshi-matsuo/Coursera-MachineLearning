@@ -16,10 +16,10 @@ sim = 0;
 %
 %
 
-numer = sum((x1 - x2).^2)
-denom = (2 * sigma ^ 2)
+numer = sum((x1 - x2).^2);
+denom = (2 * sigma ^ 2);
 
-sim = exp(-1*numer / denom)
+sim = exp(-1*numer / denom);
 
 
 
