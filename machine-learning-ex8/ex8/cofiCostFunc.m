@@ -41,17 +41,29 @@ Theta_grad = zeros(size(Theta));
 %
 
 
+J = sum(sum(((X * Theta' .* R) - Y) .^2)) / 2;
+
+reg_forJ = lambda/2 * ( sum(sum(Theta.^2)) + sum(sum(X.^2)) );
+J += reg_forJ;
 
 
+for i = 1:size(X)
+    idx = find(R(i,:) == 1);
+    Theta_tmp = Theta(idx,:);
+    Y_tmp = Y(i,idx);
+    X_grad(i,:) = (X(i,:) * Theta_tmp' - Y_tmp) * Theta_tmp;
 
+    X_grad(i,:) += lambda * X(i,:);
+end
 
+for j = 1:size(Theta)
+    idx = find(R(:,j) == 1);
+    X_tmp = X(idx,:);
+    Y_tmp = Y(idx,j);
+    Theta_grad(j,:) = (Theta(j,:) * X_tmp' - Y_tmp') * X_tmp;
 
-
-
-
-
-
-
+    Theta_grad(j,:) += lambda * Theta(j,:);
+end
 
 
 
